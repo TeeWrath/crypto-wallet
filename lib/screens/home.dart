@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(15,0,15,0),
+          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -55,18 +55,47 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(4),
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        minimumSize: const Size(double.infinity, 50),
-                        backgroundColor: Colors.blue),
-                    child: const Text('Send', style: TextStyle(fontSize: 18,color: Colors.white),),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            backgroundColor: Colors.blue,
+                            maximumSize: const Size(double.infinity, 50)),
+                        child: const Text(
+                          'Send',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
+                    ),
                   ),
-              ),
+
+                  // const Spacer(),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            // minimumSize: const Size(30, 50),
+                            maximumSize: const Size(double.infinity, 50),
+                            backgroundColor: Colors.red),
+                        child: const Text(
+                          'Swap',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
