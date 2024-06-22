@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/utils.dart';
 import 'package:wlt/view/home_view.dart';
+import 'package:wlt/widgets/progress_indicator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,17 +26,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _loginUser() async {
     setState(() {
-      isLoading = true;
+      isLoading = _auth.isLoading;
     });
     var res = await _auth.loginUser(
         mixed: _mixedController.text, password: _passwordController.text);
     if (res == 'success') {
       setState(() {
-        isLoading = false;
+        isLoading = _auth.isLoading;
       });
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (ctx) => const HomeScreen()));
     }
+    isLoading = _auth.isLoading;
   }
 
   @override
@@ -95,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 20,
                 ),
                 isLoading
-                    ? const CircularProgressIndicator()
+                    ? const ProgressIndicatorCustom()
                     : ElevatedButton(
                         onPressed: _loginUser,
                         style: ElevatedButton.styleFrom(

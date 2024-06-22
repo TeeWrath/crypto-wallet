@@ -5,30 +5,48 @@ import 'package:wlt/const.dart';
 import 'package:wlt/model/user_model.dart';
 
 class AuthController {
-
+  bool isLoading = false;
   Future<String> loginUser(
       {required String mixed, required String password}) async {
+    isLoading = true;
     try {
-      var response = await http.post(Uri.https(Api.baseUrl, Api.userLogin),
-          headers: {"Content-Type": "application/json"},
-          body: json.encode({
-            'mixed': mixed,
-            'password': password,
-          }));
+      var response = await http.post(
+        Uri.https(Api.baseUrl, Api.userLogin),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          'mixed': mixed,
+          'password': password,
+        }),
+      );
+
+      if (response.statusCode != 200) {
+        debugPrint('Error: HTTP status ${response.statusCode}');
+        isLoading = false;
+        return 'error';
+      }
+
       var data = json.decode(response.body);
-      UserModel userModel = UserModel.fromJson(data);
+      if (data == null || data.isEmpty) {
+        debugPrint('Error: Empty response body');
+        isLoading = false;
+        return 'error';
+      }
+
+      debugPrint('Response data: $data');
+
       if (data['status'] == 'success') {
-        print(data);
-        print(userModel.token);
+        UserModel userModel = UserModel.fromJson(data);
+        debugPrint('User token: ${userModel.token}');
+        isLoading = false;
         return data['status'];
       } else {
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$response.')));
-        print(data['message']);
+        debugPrint('Error message: ${data['message']}');
+        isLoading = false;
         return data['status'];
       }
     } catch (e) {
-      debugPrint('Error : $e');
-      throw ('$e');
+      debugPrint('Error: $e');
+      return 'error';
     }
   }
 }
