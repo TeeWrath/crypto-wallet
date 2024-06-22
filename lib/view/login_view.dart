@@ -75,9 +75,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(onPressed: () {},style: ElevatedButton.styleFrom(
-                fixedSize: const Size(double.infinity, 50)
-                ) ,child: const Text('Login'))
+                ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    child: const Text('Login',style: TextStyle(color: Colors.black),)),
+                const SizedBox(height: 50,),
+                const Divider(
+                  color: Colors.white,
+                  thickness: 0.5,
+                ),
+                Row(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Don\'t have an account?', style: TextStyle(color: primaryTextColor),),
+                    TextButton(onPressed: () {},child: const Text('Sign Up', style: TextStyle(color: secondaryColor),),),
+                  ],
+                ),
               ],
             ),
           ),
