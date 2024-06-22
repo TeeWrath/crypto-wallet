@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wlt/view/home_view.dart';
+import 'package:wlt/view/login_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }
