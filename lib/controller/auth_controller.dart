@@ -17,7 +17,7 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _setWallet(bool wallet) {
+  void setWallet(bool wallet) {
     _hasWallet = wallet;
     notifyListeners();
   }
@@ -58,7 +58,7 @@ class AuthController extends ChangeNotifier {
       if (data['status'] == 'success') {
         UserModel userModel = UserModel.fromJson(data);
         debugPrint('User token: ${userModel.token}');
-        _setWallet(data['has_wallet']);
+        setWallet(data['has_wallet']);
         _setToken(data['token']);
         _setLoading(false);
         return data['status'];

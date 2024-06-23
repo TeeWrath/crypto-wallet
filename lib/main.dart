@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wlt/controller/auth_controller.dart';
+import 'package:wlt/controller/wallet_controller.dart';
+import 'package:wlt/view/create_wallet.dart';
 import 'package:wlt/view/home_view.dart';
 import 'package:wlt/view/login_view.dart';
 
@@ -15,10 +17,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => AuthController())
+      ChangeNotifierProvider(create: (context) => AuthController()),
+      ChangeNotifierProvider(create: (context) => WalletController())
     ], child: const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: CreateWalletScreen(),
     ),);
   }
 }
