@@ -6,13 +6,27 @@ import 'package:wlt/model/user_model.dart';
 
 class AuthController extends ChangeNotifier {
   bool _isLoading = false;
+  bool _hasWallet = false;
+  String flicToken = "";
+  String get getFlicToken => flicToken;
+  bool get hasWallet => _hasWallet;
   bool get isLoading => _isLoading;
-  
+
+  void _setToken(String tkn) {
+    flicToken = tkn;
+    notifyListeners();
+  }
+
+  void _setWallet(bool wallet) {
+    _hasWallet = wallet;
+    notifyListeners();
+  }
+
   void _setLoading(bool loading) {
     _isLoading = loading;
     notifyListeners();
   }
-  
+
   Future<String> loginUser(
       {required String mixed, required String password}) async {
     _setLoading(true);
@@ -44,6 +58,8 @@ class AuthController extends ChangeNotifier {
       if (data['status'] == 'success') {
         UserModel userModel = UserModel.fromJson(data);
         debugPrint('User token: ${userModel.token}');
+        _setWallet(data['has_wallet']);
+        _setToken(data['token']);
         _setLoading(false);
         return data['status'];
       } else {

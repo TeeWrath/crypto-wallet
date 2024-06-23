@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wlt/controller/auth_controller.dart';
+import 'package:wlt/view/create_wallet.dart';
 // import 'package:wlt/widgets/bottom_navbar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -6,7 +9,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final auth = Provider.of<AuthController>(context);
+    return auth.hasWallet ?
+    Scaffold(
       appBar: AppBar(
         title: const Text(
           'Wallet',
@@ -102,6 +107,6 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       // bottomNavigationBar: BottomNavBar(),
-    );
+    ) : const CreateWalletScreen();
   }
 }
