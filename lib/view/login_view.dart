@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/utils.dart';
 import 'package:wlt/view/home_view.dart';
@@ -14,34 +15,17 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _mixedController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final AuthController _auth = AuthController();
-  bool isLoading = false;
 
   @override
   void dispose() {
-    super.dispose();
     _mixedController.dispose();
     _passwordController.dispose();
-  }
-
-  void _loginUser() async {
-    setState(() {
-      isLoading = _auth.isLoading;
-    });
-    var res = await _auth.loginUser(
-        mixed: _mixedController.text, password: _passwordController.text);
-    if (res == 'success') {
-      setState(() {
-        isLoading = _auth.isLoading;
-      });
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (ctx) => const HomeScreen()));
-    }
-    isLoading = _auth.isLoading;
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthController>(context);
     return Scaffold(
       backgroundColor: primaryBgColor,
       body: Padding(
@@ -96,10 +80,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                isLoading
+                auth.isLoading
                     ? const ProgressIndicatorCustom()
                     : ElevatedButton(
-                        onPressed: _loginUser,
+                        onPressed: () async {
+                          var res = await auth.loginUser(
+                              mixed: _mixedController.text,
+                              password: _passwordController.text);
+                          if (res == 'success') {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomeScreen()));
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 50),
                             shape: RoundedRectangleBorder(
@@ -116,7 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   thickness: 0.5,
                 ),
                 Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
