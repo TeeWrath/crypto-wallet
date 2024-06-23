@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wlt/controller/auth_controller.dart';
-import 'package:wlt/controller/wallet_controller.dart';
 import 'package:wlt/utils.dart';
+import 'package:wlt/view/enter_wallet_details.dart';
 
-class CreateWalletScreen extends StatefulWidget {
+class CreateWalletScreen extends StatelessWidget {
   const CreateWalletScreen({super.key});
 
-  @override
-  State<CreateWalletScreen> createState() => _CreateWalletScreenState();
-}
-
-class _CreateWalletScreenState extends State<CreateWalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +34,19 @@ class _CreateWalletScreenState extends State<CreateWalletScreen> {
                   height: 200,
                 ),
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const EnterWalletDetails()));
+                    },
                     style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      minimumSize: const Size(double.infinity, 50),
-                      backgroundColor: textFieldFillColor,
-                      overlayColor: secondaryColor
-                    ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        minimumSize: const Size(double.infinity, 50),
+                        backgroundColor: textFieldFillColor,
+                        overlayColor: secondaryColor),
                     child: const Text(
                       'Create Wallet',
                       style: TextStyle(color: primaryTextColor),

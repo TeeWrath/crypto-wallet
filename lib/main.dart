@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/controller/wallet_controller.dart';
 import 'package:wlt/view/create_wallet.dart';
+import 'package:wlt/view/enter_wallet_details.dart';
 import 'package:wlt/view/home_view.dart';
 import 'package:wlt/view/login_view.dart';
 
