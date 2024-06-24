@@ -6,7 +6,7 @@ import 'package:wlt/model/user_model.dart';
 
 class AuthController extends ChangeNotifier {
   bool _isLoading = false;
-  bool _hasWallet = false;
+  bool _hasWallet = true;
   String flicToken = "";
   String get getFlicToken => flicToken;
   bool get hasWallet => _hasWallet;

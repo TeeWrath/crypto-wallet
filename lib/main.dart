@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(create: (context) => WalletController())
     ], child: const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CreateWalletScreen(),
+      home: HomeScreen(),
+      // home: ,
     ),);
   }
 }
