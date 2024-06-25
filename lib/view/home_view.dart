@@ -48,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthController>(context);
-    final wallet = Provider.of<WalletController>(context);
 
     if (!auth.hasWallet) {
       return const CreateWalletScreen();

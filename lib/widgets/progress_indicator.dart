@@ -17,12 +17,16 @@ class ProgressIndicatorCustom extends StatelessWidget {
           Image.asset(
             'assets/solanaLogoMark.png',
             fit: BoxFit.cover,
-            height: 20,
-            width: 20,
+            height: (2/5)*h,
+            width: (2/5)*w,
           ),
-          const CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(secondaryColor),
-            strokeWidth: 3,
+          SizedBox(
+            height: (3/5)*h,
+            width: (3/5)*w,
+            child: const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(secondaryColor),
+              strokeWidth: 3,
+            ),
           ),
         ],
       ),

@@ -23,7 +23,6 @@ class WalletController extends ChangeNotifier {
       {required String walletAddress,
       var network = "devnet",
       required String token}) async {
-    print('get balance is called');
     try {
       var uri = Uri.https(
         "api.socialverseapp.com",
@@ -33,10 +32,10 @@ class WalletController extends ChangeNotifier {
       var response = await http.get(uri, headers: {'Flic-Token': token});
       var data = json.decode(response.body);
       if (response.statusCode == 200) {
-        print(data);
+        // print(data);
         return data['balance'].toString();
       } else {
-        print(data);
+        // print(data);
         return data['message'];
       }
     } catch (e) {
