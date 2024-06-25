@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wlt/const.dart';
-import 'package:wlt/model/wallet_model.dart';
 
 class WalletController extends ChangeNotifier {
   String _publicKey = "";
@@ -20,30 +19,30 @@ class WalletController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<dynamic> getWalletBalance(
+  Future<String> getWalletBalance(
       {required String walletAddress,
-      var network,
+      var network = "devnet",
       required String token}) async {
-    _setLoading(true);
+    print('get balance is called');
     try {
-      var response = await http.get(
-          Uri.https(
-              Api.baseUrl,
-              Api.getBalance +
-                  "?network=${network ?? "devnet"}&wallet_address=$walletAddress"),
-          headers: {'Flic-Token': token});
+      var uri = Uri.https(
+        "api.socialverseapp.com",
+        "/solana/wallet/balance",
+        {"network": network ?? "devnet", "wallet_address": walletAddress},
+      );
+      var response = await http.get(uri, headers: {'Flic-Token': token});
       var data = json.decode(response.body);
       if (response.statusCode == 200) {
-        _setLoading(false);
-        return data['balance'];
+        print(data);
+        return data['balance'].toString();
       } else {
-        _setLoading(false);
+        print(data);
         return data['message'];
       }
     } catch (e) {
       debugPrint('Error : $e');
       throw ('Error');
-    }
+    } 
   }
 
   Future<String> createWallet(
@@ -62,23 +61,18 @@ class WalletController extends ChangeNotifier {
           }));
       var data = json.decode(response.body);
       if (response.statusCode == 201) {
-        // WalletModel walletModel = WalletModel.fromJson(data);
         _setPublicKey(data['publicKey']);
-        _setLoading(false);
         return data['status'];
       } else if (response.statusCode == 409) {
-        print(data['message']);
-        _setLoading(false);
         return data['message'];
       } else {
-        print(data['message']);
-        _setLoading(false);
         return data['message'];
       }
     } catch (e) {
       debugPrint('Error : $e');
-      _setLoading(false);
       throw ('error');
+    } finally {
+      _setLoading(false);
     }
   }
 }

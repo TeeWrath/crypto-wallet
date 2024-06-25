@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/controller/wallet_controller.dart';
 import 'package:wlt/view/create_wallet.dart';
-// import 'package:wlt/widgets/bottom_navbar.dart';
+import 'package:wlt/widgets/progress_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,119 +13,159 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String? _balance;
+  bool _isLoading = true;
+  String? _errorMessage;
+
   @override
   void initState() {
     super.initState();
+    _fetchBalance();
+  }
+
+  Future<void> _fetchBalance() async {
+    final auth = Provider.of<AuthController>(context, listen: false);
+    final wallet = Provider.of<WalletController>(context, listen: false);
+
+    try {
+      final balance = await wallet.getWalletBalance(
+        walletAddress: wallet.publicKey,
+        // walletAddress: 'CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS',
+        token: auth.getFlicToken,
+      );
+      setState(() {
+        _balance = balance;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthController>(context);
     final wallet = Provider.of<WalletController>(context);
-    final token = auth.getFlicToken;
-    final dynamic balance = await wallet.getWalletBalance(walletAddress: wallet.publicKey, token: token);
-    return auth.hasWallet
-        ? Scaffold(
-            appBar: AppBar(
-              title: const Text(
-                'Wallet',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-              ),
-              backgroundColor: Colors.black,
-            ),
-            backgroundColor: Colors.black,
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      // padding: const EdgeInsets.only(left: 12, right: 12),
-                      width: double.infinity,
-                      height: 120,
-                      child: Card(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 20),
-                          child: Column(
-                            // mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text('Total Balance')),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    '\$10.00',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700),
-                                  )),
-                              SizedBox(
-                                height: 10,
-                              )
-                            ],
+
+    if (!auth.hasWallet) {
+      return const CreateWalletScreen();
+    }
+
+    if (_isLoading) {
+      return const ProgressIndicatorCustom(h: 200, w: 200);
+    }
+
+    if (_errorMessage != null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Wallet',
+              style: TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.w700)),
+          backgroundColor: Colors.black,
+        ),
+        backgroundColor: Colors.black,
+        body: Center(child: Text('Error: $_errorMessage')),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Wallet',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+        backgroundColor: Colors.black,
+      ),
+      backgroundColor: Colors.black,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: 120,
+                child: Card(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        const Align(
+                            alignment: Alignment.topLeft,
+                            child: Text('Total Balance')),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            '\$$_balance',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700),
                           ),
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10)),
+                          backgroundColor: Colors.blue,
+                          maximumSize:
+                              const Size(double.infinity, 50),
+                        ),
+                        child: const Text(
+                          'Send',
+                          style: TextStyle(
+                              fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: Colors.blue,
-                                  maximumSize: const Size(double.infinity, 50)),
-                              child: const Text(
-                                'Send',
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              ),
-                            ),
-                          ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(10)),
+                          maximumSize:
+                              const Size(double.infinity, 50),
+                          backgroundColor: Colors.red,
                         ),
-
-                        // const Spacer(),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  // minimumSize: const Size(30, 50),
-                                  maximumSize: const Size(double.infinity, 50),
-                                  backgroundColor: Colors.red),
-                              child: const Text(
-                                'Swap',
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              ),
-                            ),
-                          ),
+                        child: const Text(
+                          'Swap',
+                          style: TextStyle(
+                              fontSize: 16, color: Colors.white),
                         ),
-                      ],
-                    )
-                  ],
-                ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            // bottomNavigationBar: BottomNavBar(),
-          )
-        : const CreateWalletScreen();
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

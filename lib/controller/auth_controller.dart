@@ -53,11 +53,11 @@ class AuthController extends ChangeNotifier {
         return 'error';
       }
 
-      debugPrint('Response data: $data');
+      // debugPrint('Response data: $data');
 
       if (data['status'] == 'success') {
         UserModel userModel = UserModel.fromJson(data);
-        debugPrint('User token: ${userModel.token}');
+        // debugPrint('User token: ${userModel.token}');
         setWallet(data['has_wallet']);
         _setToken(data['token']);
         _setLoading(false);
