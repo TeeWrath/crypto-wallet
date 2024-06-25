@@ -28,7 +28,7 @@ class WalletController extends ChangeNotifier {
 
   Future<String> getWalletBalance(
       {required String walletAddress,
-      var network = "devnet",
+      var network,
       required String token}) async {
     try {
       var uri = Uri.https(
@@ -49,6 +49,37 @@ class WalletController extends ChangeNotifier {
     } catch (e) {
       debugPrint('Error : $e');
       throw ('Error');
+    }
+  }
+
+  Future<String> transferBalance(
+      {required String token,
+      required String recipientAdd,
+      required int amount,
+      required int pin}) async {
+    _setLoading(true);
+    try {
+      var response =
+          await http.post(Uri.https(Api.baseUrl, Api.transferBalance),
+              headers: {'Flic-Token': token},
+              body: json.encode({
+                "recipient_address": recipientAdd,
+                "network": "devnet",
+                "sender_address": publicKey,
+                "amount": amount,
+                "user_pin": pin
+              }));
+      var data = json.decode(response.body);
+      if (response.statusCode == 200) {
+        print(data);
+        return data['status'];
+      } else {
+        print(data);
+        return data['message'];
+      }
+    } catch (e) {
+      debugPrint("Error : $e");
+      throw ('$e');
     }
   }
 

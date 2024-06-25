@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wlt/utils.dart';
+import 'package:wlt/view/enter_pin.dart';
 import 'package:wlt/widgets/enter_amount.dart';
 
 class BalanceTransferScreen extends StatefulWidget {
@@ -36,7 +37,10 @@ class _BalanceTransferScreenState extends State<BalanceTransferScreen> {
                   controller: _recipentAddressController,
                   style: const TextStyle(color: primaryTextColor),
                   decoration: const InputDecoration(
-                    suffixIcon: Icon(Icons.wallet_outlined,color: primaryTextColor,),
+                    suffixIcon: Icon(
+                      Icons.wallet_outlined,
+                      color: primaryTextColor,
+                    ),
                     hintText: 'Recipient Address',
                     hintStyle: TextStyle(fontSize: 13, color: primaryTextColor),
                     filled: true,
@@ -49,23 +53,30 @@ class _BalanceTransferScreenState extends State<BalanceTransferScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15,),
+                const SizedBox(
+                  height: 15,
+                ),
                 const EnterAmount(),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          backgroundColor: Colors.blue,
-                          overlayColor: secondaryColor,
-                          minimumSize: const Size(double.infinity, 50),
-                        ),
-                        child: const Text(
-                          'Send',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-                      ),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (ctx) => const EnterPin()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    backgroundColor: Colors.blue,
+                    overlayColor: secondaryColor,
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                  child: const Text(
+                    'Send',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
               ],
             ),
           ),
