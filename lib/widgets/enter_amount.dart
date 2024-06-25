@@ -5,15 +5,15 @@ import 'package:wlt/utils.dart';
 import 'package:wlt/widgets/my_button.dart';
 
 class EnterAmount extends StatefulWidget {
-  const EnterAmount({super.key});
+  final Function(String) onUserInput;
+
+  const EnterAmount({super.key, required this.onUserInput});
 
   @override
   State<EnterAmount> createState() => _EnterAmountState();
 }
 
 class _EnterAmountState extends State<EnterAmount> {
-  var userInput = '';
-
   final List<String> buttons = [
     '1',
     '2',
@@ -28,6 +28,8 @@ class _EnterAmountState extends State<EnterAmount> {
     '0',
     'DEL'
   ];
+
+  var userInput = '';
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,7 @@ class _EnterAmountState extends State<EnterAmount> {
                     setState(() {
                       if (!userInput.contains('.')) {
                         userInput += buttons[index];
+                        widget.onUserInput(userInput);
                       }
                     });
                   },
@@ -68,6 +71,7 @@ class _EnterAmountState extends State<EnterAmount> {
                     setState(() {
                       if (userInput.isNotEmpty) {
                         userInput = userInput.substring(0, userInput.length - 1);
+                        widget.onUserInput(userInput);
                       }
                     });
                   },
@@ -80,6 +84,7 @@ class _EnterAmountState extends State<EnterAmount> {
                   buttontapped: () {
                     setState(() {
                       userInput += buttons[index];
+                      widget.onUserInput(userInput);
                     });
                   },
                 );
@@ -87,7 +92,7 @@ class _EnterAmountState extends State<EnterAmount> {
             },
           ),
         ),
-      ],
-    );
-  }
+],
+);
+}
 }

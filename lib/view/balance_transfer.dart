@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wlt/controller/wallet_controller.dart';
 import 'package:wlt/utils.dart';
 import 'package:wlt/view/enter_pin.dart';
 import 'package:wlt/widgets/enter_amount.dart';
@@ -13,8 +15,11 @@ class BalanceTransferScreen extends StatefulWidget {
 class _BalanceTransferScreenState extends State<BalanceTransferScreen> {
   final TextEditingController _recipentAddressController =
       TextEditingController();
+  String amount = '';
+
   @override
   Widget build(BuildContext context) {
+    final wallet = Provider.of<WalletController>(context);
     return Scaffold(
       backgroundColor: primaryBgColor,
       appBar: AppBar(
@@ -56,14 +61,25 @@ class _BalanceTransferScreenState extends State<BalanceTransferScreen> {
                 const SizedBox(
                   height: 15,
                 ),
-                const EnterAmount(),
+                EnterAmount(
+                  onUserInput: (input) {
+                    setState(() {
+                      amount = input;
+                    });
+                  },
+                ),
                 const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (ctx) => const EnterPin()));
+                    wallet.addRecipientAdd(_recipentAddressController);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctx) => EnterPin(amount: amount),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -81,7 +97,7 @@ class _BalanceTransferScreenState extends State<BalanceTransferScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
+     ),
+);
+}
 }

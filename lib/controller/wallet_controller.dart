@@ -8,8 +8,15 @@ class WalletController extends ChangeNotifier {
   String _balance = "Not fetched";
   String get balance => _balance;
   String get publicKey => _publicKey;
+  String _recipientAdd = "";
+  String get recipientAdd => _recipientAdd;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+
+  void addRecipientAdd(TextEditingController add) {
+    _recipientAdd = add.text;
+    notifyListeners();
+  }
 
   void _setBalance(String bal) {
     _balance = bal;
@@ -56,7 +63,7 @@ class WalletController extends ChangeNotifier {
       {required String token,
       required String recipientAdd,
       required int amount,
-      required int pin}) async {
+      required String pin}) async {
     _setLoading(true);
     try {
       var response =
@@ -65,7 +72,8 @@ class WalletController extends ChangeNotifier {
               body: json.encode({
                 "recipient_address": recipientAdd,
                 "network": "devnet",
-                "sender_address": publicKey,
+                // "sender_address": publicKey,
+                "sender_address" : "CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS",
                 "amount": amount,
                 "user_pin": pin
               }));

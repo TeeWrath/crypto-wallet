@@ -60,6 +60,7 @@ class AuthController extends ChangeNotifier {
         // debugPrint('User token: ${userModel.token}');
         setWallet(data['has_wallet']);
         _setToken(data['token']);
+        print(data['token']);
         _setLoading(false);
         return data['status'];
       } else {

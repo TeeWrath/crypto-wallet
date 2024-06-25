@@ -4,9 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/controller/wallet_controller.dart';
 import 'package:wlt/utils.dart';
+import 'package:wlt/view/home_view.dart';
 
 class EnterPin extends StatefulWidget {
-  const EnterPin({super.key});
+  final String amount;
+
+  const EnterPin({super.key, required this.amount});
 
   @override
   State<EnterPin> createState() => _EnterPinState();
@@ -18,6 +21,14 @@ class _EnterPinState extends State<EnterPin> {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthController>(context);
     final wallet = Provider.of<WalletController>(context);
+    int amnt;
+    try {
+      amnt = int.parse(widget.amount);
+    } catch (e) {
+      // Handling the error and assigning a default value or log the error
+      amnt = 0; // or some default value
+      // print('Error parsing amount: $e');
+    }
 
     return Scaffold(
       backgroundColor: primaryBgColor,
@@ -72,9 +83,15 @@ class _EnterPinState extends State<EnterPin> {
                     onPressed: () async {
                       var res = await wallet.transferBalance(
                           token: auth.getFlicToken,
-                          recipientAdd: _,
-                          amount: amount,
+                          recipientAdd: wallet.recipientAdd,
+                          amount: amnt,
                           pin: _pinController.text);
+                      if (res == 'success') {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) => const HomeScreen()));
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
