@@ -32,7 +32,7 @@ class _EnterWalletDetailsState extends State<EnterWalletDetails> {
     return Scaffold(
       backgroundColor: primaryBgColor,
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: primaryTextColor),
         centerTitle: true,
         title: const Text(
           'Create Wallet',

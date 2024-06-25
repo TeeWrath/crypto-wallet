@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/controller/wallet_controller.dart';
+import 'package:wlt/utils.dart';
+import 'package:wlt/view/balance_transfer.dart';
 import 'package:wlt/view/create_wallet.dart';
 import 'package:wlt/widgets/progress_indicator.dart';
 
@@ -29,8 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       final balance = await wallet.getWalletBalance(
-        walletAddress: wallet.publicKey,
-        // walletAddress: 'CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS',
+        // walletAddress: wallet.publicKey,
+        walletAddress: 'CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS',
         token: auth.getFlicToken,
       );
       setState(() {
@@ -61,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Wallet',
-              style: TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.w700)),
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
           backgroundColor: Colors.black,
         ),
         backgroundColor: Colors.black,
@@ -74,8 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text(
           'Wallet',
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w700),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.black,
       ),
@@ -105,8 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Text(
                             '\$$_balance',
                             style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700),
+                                fontSize: 18, fontWeight: FontWeight.w700),
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -121,19 +121,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(4),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const BalanceTransferScreen()));
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(10)),
                           backgroundColor: Colors.blue,
-                          maximumSize:
-                              const Size(double.infinity, 50),
+                          overlayColor: secondaryColor,
+                          maximumSize: const Size(double.infinity, 50),
                         ),
                         child: const Text(
                           'Send',
-                          style: TextStyle(
-                              fontSize: 16, color: Colors.white),
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),
@@ -145,16 +149,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(10)),
-                          maximumSize:
-                              const Size(double.infinity, 50),
+                              borderRadius: BorderRadius.circular(10)),
+                          maximumSize: const Size(double.infinity, 50),
                           backgroundColor: Colors.red,
                         ),
                         child: const Text(
                           'Swap',
-                          style: TextStyle(
-                              fontSize: 16, color: Colors.white),
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),

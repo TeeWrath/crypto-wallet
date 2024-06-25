@@ -5,9 +5,16 @@ import 'package:wlt/const.dart';
 
 class WalletController extends ChangeNotifier {
   String _publicKey = "";
+  String _balance = "Not fetched";
+  String get balance => _balance;
   String get publicKey => _publicKey;
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+
+  void _setBalance(String bal) {
+    _balance = bal;
+    notifyListeners();
+  }
 
   void _setLoading(bool loading) {
     _isLoading = loading;
@@ -33,6 +40,7 @@ class WalletController extends ChangeNotifier {
       var data = json.decode(response.body);
       if (response.statusCode == 200) {
         // print(data);
+        _setBalance(data['balance'].toString());
         return data['balance'].toString();
       } else {
         // print(data);
@@ -41,7 +49,7 @@ class WalletController extends ChangeNotifier {
     } catch (e) {
       debugPrint('Error : $e');
       throw ('Error');
-    } 
+    }
   }
 
   Future<String> createWallet(
