@@ -30,6 +30,7 @@ class WalletController extends ChangeNotifier {
 
   void _setPublicKey(String key) {
     _publicKey = key;
+    print('this is public key => '+ key);
     notifyListeners();
   }
 
@@ -45,6 +46,7 @@ class WalletController extends ChangeNotifier {
       );
       var response = await http.get(uri, headers: {'Flic-Token': token});
       var data = json.decode(response.body);
+      // print(response.statusCode);
       if (response.statusCode == 200) {
         // print(data);
         _setBalance(data['balance'].toString());
@@ -102,16 +104,16 @@ class WalletController extends ChangeNotifier {
           headers: {'Flic-Token': token},
           body: json.encode({
             // "wallet_address": publicKey,
-            "wallet_address" : "CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS",
+            "wallet_address": "CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS",
             "network": "devnet",
             "amount": amount
           }));
       var data = json.decode(response.body);
       if (response.statusCode == 500) {
-        print(data);
+        // print(data);
         return data['message'];
       } else {
-        print(data);
+        // print(data);
         return data['message'];
       }
     } catch (e) {
@@ -133,7 +135,7 @@ class WalletController extends ChangeNotifier {
           headers: {'Flic-Token': token},
           body: json.encode({
             "wallet_name": walletName,
-            "network": network ?? "devnet",
+            "network": network ?? "mainnet-beta",
             "user_pin": pin
           }));
       var data = json.decode(response.body);

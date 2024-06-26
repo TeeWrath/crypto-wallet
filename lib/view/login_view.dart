@@ -92,6 +92,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const HomeScreen()));
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .removeCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(res),
+                              duration: const Duration(seconds: 4),
+                            ));
                           }
                         },
                         style: ElevatedButton.styleFrom(

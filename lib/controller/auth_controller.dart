@@ -14,6 +14,7 @@ class AuthController extends ChangeNotifier {
 
   void _setToken(String tkn) {
     flicToken = tkn;
+    print('This is the user Token $flicToken');
     notifyListeners();
   }
 

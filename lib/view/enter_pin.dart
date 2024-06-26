@@ -5,6 +5,7 @@ import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/controller/wallet_controller.dart';
 import 'package:wlt/utils.dart';
 import 'package:wlt/view/home_view.dart';
+import 'package:wlt/widgets/progress_indicator.dart';
 
 class EnterPin extends StatefulWidget {
   final String amount;
@@ -79,30 +80,35 @@ class _EnterPinState extends State<EnterPin> {
                 const SizedBox(
                   height: 30,
                 ),
-                ElevatedButton(
-                    onPressed: () async {
-                      var res = await wallet.transferBalance(
-                          token: auth.getFlicToken,
-                          recipientAdd: wallet.recipientAdd,
-                          amount: amnt,
-                          pin: _pinController.text);
-                      if (res == 'success') {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (ctx) => const HomeScreen()));
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        minimumSize: const Size(340, 40),
-                        backgroundColor: Colors.blue,
-                        overlayColor: secondaryColor),
-                    child: const Text(
-                      'Transfer',
-                      style: TextStyle(color: primaryTextColor),
-                    ))
+                wallet.isLoading
+                    ? const ProgressIndicatorCustom()
+                    : ElevatedButton(
+                        onPressed: () async {
+                          var res = await wallet.transferBalance(
+                              token: auth.getFlicToken,
+                              recipientAdd: wallet.recipientAdd,
+                              amount: amnt,
+                              pin: _pinController.text);
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(res),
+                            duration: const Duration(seconds: 4),
+                          ));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (ctx) => const HomeScreen()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            minimumSize: const Size(340, 40),
+                            backgroundColor: Colors.blue,
+                            overlayColor: secondaryColor),
+                        child: const Text(
+                          'Transfer',
+                          style: TextStyle(color: primaryTextColor),
+                        ))
               ],
             ),
           ),

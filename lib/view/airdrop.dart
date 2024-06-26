@@ -79,6 +79,11 @@ class _AirdropScreenState extends State<AirdropScreen> {
                         onPressed: () async {
                           var res = await wallet.requestAirdrop(
                               token: auth.getFlicToken, amount: amount);
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(res),
+                            duration: const Duration(seconds: 4),
+                          ));
                           if (res != "success") {
                             Navigator.pushReplacement(
                                 context,

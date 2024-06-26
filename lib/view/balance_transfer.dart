@@ -4,7 +4,6 @@ import 'package:wlt/controller/wallet_controller.dart';
 import 'package:wlt/utils.dart';
 import 'package:wlt/view/enter_pin.dart';
 import 'package:wlt/widgets/enter_amount.dart';
-import 'package:wlt/widgets/progress_indicator.dart';
 
 class BalanceTransferScreen extends StatefulWidget {
   const BalanceTransferScreen({super.key});
@@ -72,9 +71,7 @@ class _BalanceTransferScreenState extends State<BalanceTransferScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                wallet.isLoading
-                    ? const ProgressIndicatorCustom()
-                    : ElevatedButton(
+                ElevatedButton(
                         onPressed: () {
                           wallet.addRecipientAdd(_recipentAddressController);
                           Navigator.push(
