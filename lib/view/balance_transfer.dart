@@ -4,6 +4,7 @@ import 'package:wlt/controller/wallet_controller.dart';
 import 'package:wlt/utils.dart';
 import 'package:wlt/view/enter_pin.dart';
 import 'package:wlt/widgets/enter_amount.dart';
+import 'package:wlt/widgets/progress_indicator.dart';
 
 class BalanceTransferScreen extends StatefulWidget {
   const BalanceTransferScreen({super.key});
@@ -71,33 +72,35 @@ class _BalanceTransferScreenState extends State<BalanceTransferScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    wallet.addRecipientAdd(_recipentAddressController);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (ctx) => EnterPin(amount: amount),
+                wallet.isLoading
+                    ? const ProgressIndicatorCustom()
+                    : ElevatedButton(
+                        onPressed: () {
+                          wallet.addRecipientAdd(_recipentAddressController);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (ctx) => EnterPin(amount: amount),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          backgroundColor: Colors.blue,
+                          overlayColor: secondaryColor,
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
+                        child: const Text(
+                          'Send',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
                       ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    backgroundColor: Colors.blue,
-                    overlayColor: secondaryColor,
-                    minimumSize: const Size(double.infinity, 50),
-                  ),
-                  child: const Text(
-                    'Send',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
-                ),
               ],
             ),
           ),
         ),
-     ),
-);
-}
+      ),
+    );
+  }
 }

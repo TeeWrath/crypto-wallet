@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/controller/wallet_controller.dart';
+import 'package:wlt/view/airdrop.dart';
 import 'package:wlt/view/balance_transfer.dart';
 import 'package:wlt/view/create_wallet.dart';
 import 'package:wlt/view/enter_pin.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(create: (context) => WalletController())
     ], child: const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: HomeScreen(),
       // home: ,
     ),);
   }

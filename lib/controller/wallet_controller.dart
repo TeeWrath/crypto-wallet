@@ -73,7 +73,8 @@ class WalletController extends ChangeNotifier {
                 "recipient_address": recipientAdd,
                 "network": "devnet",
                 // "sender_address": publicKey,
-                "sender_address" : "CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS",
+                "sender_address":
+                    "CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS",
                 "amount": amount,
                 "user_pin": pin
               }));
@@ -88,6 +89,8 @@ class WalletController extends ChangeNotifier {
     } catch (e) {
       debugPrint("Error : $e");
       throw ('$e');
+    } finally {
+      _setLoading(false);
     }
   }
 

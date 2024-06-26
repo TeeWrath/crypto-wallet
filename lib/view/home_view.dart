@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/controller/wallet_controller.dart';
 import 'package:wlt/utils.dart';
+import 'package:wlt/view/airdrop.dart';
 import 'package:wlt/view/balance_transfer.dart';
 import 'package:wlt/view/create_wallet.dart';
 import 'package:wlt/widgets/progress_indicator.dart';
@@ -146,7 +147,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(4),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context, MaterialPageRoute(builder: (ctx)=> const AirdropScreen())
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
@@ -154,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           backgroundColor: Colors.red,
                         ),
                         child: const Text(
-                          'Swap',
+                          'Airdrop',
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
