@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/controller/wallet_controller.dart';
 import 'package:wlt/utils.dart';
+import 'package:wlt/view/home_view.dart';
 import 'package:wlt/widgets/progress_indicator.dart';
 
 class AirdropScreen extends StatefulWidget {
@@ -17,6 +19,16 @@ class _AirdropScreenState extends State<AirdropScreen> {
   @override
   Widget build(BuildContext context) {
     final wallet = Provider.of<WalletController>(context);
+    final auth = Provider.of<AuthController>(context);
+
+    int amount;
+    try {
+      amount = int.parse(_amountController.text);
+    } catch (e) {
+      // Handling the error and assigning a default value or log the error
+      amount = 0; // or some default value
+      // print('Error parsing amount: $e');
+    }
     return Scaffold(
       backgroundColor: primaryBgColor,
       appBar: AppBar(
@@ -64,7 +76,16 @@ class _AirdropScreenState extends State<AirdropScreen> {
                 wallet.isLoading
                     ? const ProgressIndicatorCustom()
                     : ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          var res = await wallet.requestAirdrop(
+                              token: auth.getFlicToken, amount: amount);
+                          if (res != "success") {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (ctx) => const HomeScreen()));
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),

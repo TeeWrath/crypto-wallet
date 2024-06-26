@@ -80,15 +80,43 @@ class WalletController extends ChangeNotifier {
               }));
       var data = json.decode(response.body);
       if (response.statusCode == 200) {
-        print(data);
+        // print(data);
         return data['status'];
       } else {
-        print(data);
+        // print(data);
         return data['message'];
       }
     } catch (e) {
       debugPrint("Error : $e");
       throw ('$e');
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<String> requestAirdrop(
+      {required String token, var network, required int amount}) async {
+    _setLoading(true);
+    try {
+      var response = await http.post(Uri.https(Api.baseUrl, Api.requestAirDrop),
+          headers: {'Flic-Token': token},
+          body: json.encode({
+            // "wallet_address": publicKey,
+            "wallet_address" : "CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS",
+            "network": "devnet",
+            "amount": amount
+          }));
+      var data = json.decode(response.body);
+      if (response.statusCode == 500) {
+        print(data);
+        return data['message'];
+      } else {
+        print(data);
+        return data['message'];
+      }
+    } catch (e) {
+      debugPrint('Error : $e');
+      throw ("$e");
     } finally {
       _setLoading(false);
     }
