@@ -2,19 +2,22 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wlt/const.dart';
-import 'package:wlt/model/user_model.dart';
 
 class AuthController extends ChangeNotifier {
+  // Variable for important properties and states
   bool _isLoading = false;
   bool _hasWallet = true;
   String flicToken = "";
+
+  // Getters
   String get getFlicToken => flicToken;
   bool get hasWallet => _hasWallet;
   bool get isLoading => _isLoading;
 
+  // Setters
   void _setToken(String tkn) {
     flicToken = tkn;
-    print('This is the user Token $flicToken');
+    // print('This is the user Token $flicToken');
     notifyListeners();
   }
 
@@ -28,6 +31,7 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Login Business logic
   Future<String> loginUser(
       {required String mixed, required String password}) async {
     _setLoading(true);
@@ -57,22 +61,19 @@ class AuthController extends ChangeNotifier {
       // debugPrint('Response data: $data');
 
       if (data['status'] == 'success') {
-        UserModel userModel = UserModel.fromJson(data);
-        // debugPrint('User token: ${userModel.token}');
         setWallet(data['has_wallet']);
         _setToken(data['token']);
-        print(data['token']);
-        _setLoading(false);
+        // print(data['token']);
         return data['status'];
       } else {
         debugPrint('Error message: ${data['message']}');
-        _setLoading(false);
         return data['status'];
       }
     } catch (e) {
       debugPrint('Error: $e');
-      _setLoading(false);
       return 'error';
+    } finally {
+      _setLoading(false);
     }
   }
 }

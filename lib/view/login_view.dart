@@ -13,6 +13,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // Text Controllers for entering user inputs
   final TextEditingController _mixedController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -25,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Instance of AuthController
     final auth = Provider.of<AuthController>(context);
     return Scaffold(
       backgroundColor: primaryBgColor,
@@ -80,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 20,
                 ),
+                // shows loader untill the user gets logged in
                 auth.isLoading
                     ? const ProgressIndicatorCustom()
                     : ElevatedButton(
@@ -88,11 +91,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               mixed: _mixedController.text,
                               password: _passwordController.text);
                           if (res == 'success') {
+                            // Navigate to HomeScreen if successfully logged in
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const HomeScreen()));
                           } else {
+                            // Display snackbar when user not logged in successfully
                             ScaffoldMessenger.of(context)
                                 .removeCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

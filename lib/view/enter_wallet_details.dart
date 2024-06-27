@@ -109,10 +109,6 @@ class _EnterWalletDetailsState extends State<EnterWalletDetails> {
                               walletName: _walletNameController.text,
                               pin: _pinCodeController.text);
                           ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          //   content: Text('this is token ${auth.getFlicToken} \n this is walletName ${_walletNameController.text} \n this is pin ${_pinCodeController.text} \n this is result $res'),
-                          //   duration: const Duration(seconds: 4),
-                          // ));
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(res),
                             duration: const Duration(seconds: 4),

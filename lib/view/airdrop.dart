@@ -22,6 +22,7 @@ class _AirdropScreenState extends State<AirdropScreen> {
     final auth = Provider.of<AuthController>(context);
 
     int amount;
+    // Converting to int
     try {
       amount = int.parse(_amountController.text);
     } catch (e) {

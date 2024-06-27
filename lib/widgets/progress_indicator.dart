@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wlt/utils.dart';
 
+// A custom progress indicator
 class ProgressIndicatorCustom extends StatelessWidget {
   const ProgressIndicatorCustom({super.key, this.h = 50, this.w = 50});
   final double w;
@@ -11,13 +12,13 @@ class ProgressIndicatorCustom extends StatelessWidget {
     return SizedBox(
       width: w,
       height: h,
-      child: Stack(
+      child: Stack( // Using stack so that the CircularProgressIndicator is above the logo
         alignment: Alignment.center,
         children: [
           Image.asset(
             'assets/solanaLogoMark.png',
             fit: BoxFit.cover,
-            height: (2/5)*h,
+            height: (2/5)*h, // Adjusting dimensions in a visually good ratio
             width: (2/5)*w,
           ),
           SizedBox(

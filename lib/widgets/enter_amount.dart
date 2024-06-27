@@ -14,6 +14,7 @@ class EnterAmount extends StatefulWidget {
 }
 
 class _EnterAmountState extends State<EnterAmount> {
+  // List of buttons to take user input
   final List<String> buttons = [
     '1',
     '2',
@@ -38,12 +39,15 @@ class _EnterAmountState extends State<EnterAmount> {
       children: [
         Text(
           '${wallet.balance} - $userInput',
-          style: const TextStyle(fontSize: 18 , color: primaryTextColor),
+          style: const TextStyle(fontSize: 18, color: primaryTextColor),
         ),
-        const SizedBox(height: 15,),
+        const SizedBox(
+          height: 15,
+        ),
         SizedBox(
           height: 500,
           child: GridView.builder(
+            // UI for buttons
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
             ),
@@ -70,7 +74,8 @@ class _EnterAmountState extends State<EnterAmount> {
                   buttontapped: () {
                     setState(() {
                       if (userInput.isNotEmpty) {
-                        userInput = userInput.substring(0, userInput.length - 1);
+                        userInput =
+                            userInput.substring(0, userInput.length - 1);
                         widget.onUserInput(userInput);
                       }
                     });
@@ -92,7 +97,7 @@ class _EnterAmountState extends State<EnterAmount> {
             },
           ),
         ),
-],
-);
-}
+      ],
+    );
+  }
 }

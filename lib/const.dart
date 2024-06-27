@@ -1,3 +1,4 @@
+// All the API endpoints are kept here.
 class Api {
   static const String baseUrl = 'api.socialverseapp.com';
   static const String userLogin = "/user/login";

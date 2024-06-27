@@ -16,8 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? _balance;
-  bool _isLoading = true;
+  String? _balance; // To fetch and store balance in user account
+  bool _isLoading = true; // To manage load state
   String? _errorMessage;
 
   @override
@@ -32,8 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       final balance = await wallet.getWalletBalance(
-        // walletAddress: wallet.publicKey,
-        walletAddress: 'CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS',
+        walletAddress: wallet.publicKey,
+        // walletAddress: 'CgkPHJSpAQ52CRKPZrd5SH5yNTnEeSBTCCVMqQ7ZjaeS',
         token: auth.getFlicToken,
       );
       setState(() {
@@ -52,14 +52,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthController>(context);
 
+    // If user does not have wallet, redirect to create wallet screen
     if (!auth.hasWallet) {
       return const CreateWalletScreen();
     }
-
+    // otherwise show load state
     if (_isLoading) {
       return const ProgressIndicatorCustom(h: 200, w: 200);
     }
-
+    // to deal with error
     if (_errorMessage != null) {
       return Scaffold(
         appBar: AppBar(
@@ -72,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Center(child: Text('Error: $_errorMessage')),
       );
     }
-
+    // home screen UI
     return Scaffold(
       appBar: AppBar(
         title: const Text(

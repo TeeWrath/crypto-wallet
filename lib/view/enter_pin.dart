@@ -23,6 +23,7 @@ class _EnterPinState extends State<EnterPin> {
     final auth = Provider.of<AuthController>(context);
     final wallet = Provider.of<WalletController>(context);
     int amnt;
+    // Converting amount to int to pass in request body
     try {
       amnt = int.parse(widget.amount);
     } catch (e) {
@@ -63,7 +64,7 @@ class _EnterPinState extends State<EnterPin> {
                   height: 5,
                 ),
 
-                // For entering pin
+                // For entering pin (external package)
                 Pinput(
                     controller: _pinController,
                     length: 6,

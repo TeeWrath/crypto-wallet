@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wlt/controller/auth_controller.dart';
 import 'package:wlt/controller/wallet_controller.dart';
-import 'package:wlt/view/airdrop.dart';
-import 'package:wlt/view/balance_transfer.dart';
-import 'package:wlt/view/create_wallet.dart';
-import 'package:wlt/view/enter_pin.dart';
-import 'package:wlt/view/enter_wallet_details.dart';
-import 'package:wlt/view/home_view.dart';
 import 'package:wlt/view/login_view.dart';
 
 void main() {
@@ -20,6 +14,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Instantiating the providers
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => AuthController()),
       ChangeNotifierProvider(create: (context) => WalletController())

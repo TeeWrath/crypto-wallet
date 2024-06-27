@@ -4,13 +4,16 @@ import 'package:http/http.dart' as http;
 import 'package:wlt/const.dart';
 
 class WalletController extends ChangeNotifier {
+  // Variables to store important values and states
   String _publicKey = "";
   String _balance = "Not fetched";
+  String _recipientAdd = "";  
+  bool _isLoading = false;
+
+  // Getters
+  String get recipientAdd => _recipientAdd;
   String get balance => _balance;
   String get publicKey => _publicKey;
-  String _recipientAdd = "";
-  String get recipientAdd => _recipientAdd;
-  bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   void addRecipientAdd(TextEditingController add) {
@@ -18,6 +21,7 @@ class WalletController extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Setters
   void _setBalance(String bal) {
     _balance = bal;
     notifyListeners();
@@ -30,7 +34,7 @@ class WalletController extends ChangeNotifier {
 
   void _setPublicKey(String key) {
     _publicKey = key;
-    print('this is public key => '+ key);
+    // print('this is public key => '+ key);
     notifyListeners();
   }
 
